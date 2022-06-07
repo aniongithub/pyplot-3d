@@ -12,7 +12,7 @@ def get_requirements():
         return []
 
 setup(
-    name='pyplot-3d',
+    name='pyplot3d',
     version=get_git_version(),    
     description='A Python library for drawing a 3D objects using Python Matplotlib library.',
     url='https://github.com/aniongithub/pyplot-3d',
