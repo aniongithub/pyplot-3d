@@ -100,21 +100,3 @@ class Camera:
         self.l7.draw_from_to(p3, p4)
         self.l8.draw_from_to(p4, p1)
         self.origin.draw_at(x)
-
-
-
-if __name__ == '__main__':
-    from utils import ypr_to_R
-    from mpl_toolkits.mplot3d import Axes3D
-
-    import numpy as np
-    import matplotlib.pyplot as plt
-
-    plt.style.use('seaborn')
-    fig = plt.figure()
-    ax = fig.gca(projection='3d')
-
-    camera = Camera(ax)
-    camera.draw_at([1, 1, 3], ypr_to_R([0, np.pi/4, 0]))
-
-    plt.show()

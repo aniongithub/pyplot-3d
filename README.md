@@ -2,51 +2,54 @@
 
 A Python class for drawing a 3D objects using Python Matplotlib library.
 
-![UAV](media/video.gif)
-
+![UAV](media/example_uav.gif)
 
 The sole purpose of this library is to provide a few customizable 3D shapes so that you can conveneintly use them for generating 3D plots.
 
 ## How to Use
 
-1. Add this as a submodule.
-    ```sh
-    cd /directory/where/you/have/your/python/files
-    git submodule add https://github.com/kanishkegb/pyplot-3d.git ./pyplot3d
-    ```
-    Alternatively, you can download the repo as a zip file, extract it, rename it to `pyplot3d`, and move it your directory with python codes.
+* Install this via pip
+  `pip3 install git+https://github.com/aniongithub/pyplot-3d.git`
 
-1. Use the library in your code.
-    ```python
-    from pyplot3d.uav import Uav
-    from pyplot3d.utils import ypr_to_R
+Or,
 
-    import numpy as np
-    import matplotlib.pyplot as plt
+* Add this as a submodule.
 
-    plt.style.use('seaborn')
+```sh
+cd /directory/where/you/have/your/python/files
+git submodule add https://github.com/aniongithub/pyplot-3d.git ./pyplot3d
+```
 
-    # initialize plot
-    fig = plt.figure()
-    ax = fig.gca(projection='3d')
-    
-    arm_length = 0.24  # in meters
-    uav = Uav(ax, arm_length)
+Alternatively, you can download the repo as a zip file, extract it, rename it to `pyplot3d`, and move it your directory with python codes.
 
-    uav.draw_at([1, 0, 0], ypr_to_R([np.pi/2.0, 0, 0]))
+* Use the library in your code.
 
-    plt.show()
-    ```
-    
-1. Run the code.
-    ```sh
-    python3 /name/of/your/file
-    ```
+```python
+from pyplot3d.uav import Uav
+from pyplot3d.utils import ypr_to_R
 
-You can combine multiple objects.
-For example, the UAV plot is simply a combination of a few other basic shapes defined in `basic.py`.
-Just make sure to call all the objects before calling `plt.show()`.
+import numpy as np
+import matplotlib.pyplot as plt
 
+plt.style.use('seaborn')
+
+# initialize plot
+fig = plt.figure()
+ax = fig.gca(projection='3d')
+
+arm_length = 0.24  # in meters
+uav = Uav(ax, arm_length)
+
+uav.draw_at([1, 0, 0], ypr_to_R([np.pi/2.0, 0, 0]))
+
+plt.show()
+```
+
+* Run the code.
+
+```sh
+python3 /name/of/your/file
+```
 
 Also, you can use it with combination of animations package.
 The below code can be used to generate the GIF shown above.
@@ -64,14 +67,14 @@ from utils import pyplot3d.ypr_to_R
 
 def update_plot(i, x, R):
     uav_plot.update_plot(x[:, i], R[:, :, i])
-    
+  
     # These limits must be set manually since we use
     # a different axis frame configuration than the
     # one matplotlib uses.
     xmin, xmax = -2, 2
     ymin, ymax = -2, 2
     zmin, zmax = -2, 2
-    
+  
     ax.set_xlim([xmin, xmax])
     ax.set_ylim([ymax, ymin])
     ax.set_zlim([zmax, zmin])
@@ -105,3 +108,7 @@ ani = animation.FuncAnimation(fig, update_plot, frames=20, fargs=(x, R,));
 # from IPython.display import HTML
 # HTML(ani.to_jshtml())
 
+```
+
+For example, the UAV plot is simply a combination of a few other basic shapes defined in `basic.py`.
+Just make sure to call all the objects before calling `plt.show()`.
