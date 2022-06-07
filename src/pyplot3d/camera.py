@@ -8,11 +8,10 @@ class Camera:
     Draws a line at a given position, with a given attitude.
     '''
 
-    def __init__(self, ax, c='b', x=np.array([0.0, 0.0, 0.0]).T, R=np.eye(3)):
+    def __init__(self, c='b', x=np.array([0.0, 0.0, 0.0]).T, R=np.eye(3)):
         '''
         Initialize the camera.
         Params:
-            ax: (matplotlib axis) the axis where the line should be drawn
             direction: (3x1 numpy.ndarray) direction of the arrow
             c: (string) color of the arrow, default = 'b'
             x: (3x1 numpy.ndarray) origin of the camera, 
@@ -24,7 +23,6 @@ class Camera:
             None
         '''
 
-        self.ax = ax
         self.color = c
         self.x = x
         self.R = R
@@ -48,32 +46,33 @@ class Camera:
         self.origin = Sphere(self.ax, 0.02, 'y')
 
 
-    def draw(self):
+    def draw(self, ax):
         '''
         Draw a camera with the initially defined parameter when the class was
         instantiated.
         Args:
-            None
+            ax: (matplotlib axis) the axis where the line should be drawn
         
         Returns:
             None
         '''
         
-        self.l1.draw()
-        self.l2.draw()
-        self.l3.draw()
-        self.l4.draw()
-        self.l5.draw()
-        self.l6.draw()
-        self.l7.draw()
-        self.l8.draw()
-        self.origin.draw()
+        self.l1.draw(ax)
+        self.l2.draw(ax)
+        self.l3.draw(ax)
+        self.l4.draw(ax)
+        self.l5.draw(ax)
+        self.l6.draw(ax)
+        self.l7.draw(ax)
+        self.l8.draw(ax)
+        self.origin.draw(ax)
     
 
-    def draw_at(self, x=np.array([0.0, 0.0, 0.0]).T, R=np.eye(3)):
+    def draw_at(self, ax, x=np.array([0.0, 0.0, 0.0]).T, R=np.eye(3)):
         '''
         Draw the camera at a given point and attitude.
         Args:
+            ax: (matplotlib axis) the axis where the line should be drawn
             x: (3x1 numpy.ndarray) position of camera,
                 default = [0.0, 0.0, 0.0]
             R: (3x1 numpy.ndarray) attitude of the camera, 
@@ -91,12 +90,12 @@ class Camera:
         p3 = x + R@np.array([d, -w, -h])
         p4 = x + R@np.array([d, w, -h])
 
-        self.l1.draw_from_to(x, p1)
-        self.l2.draw_from_to(x, p2)
-        self.l3.draw_from_to(x, p3)
-        self.l4.draw_from_to(x, p4)
-        self.l5.draw_from_to(p1, p2)
-        self.l6.draw_from_to(p2, p3)
-        self.l7.draw_from_to(p3, p4)
-        self.l8.draw_from_to(p4, p1)
-        self.origin.draw_at(x)
+        self.l1.draw_from_to(ax, x, p1)
+        self.l2.draw_from_to(ax, x, p2)
+        self.l3.draw_from_to(ax, x, p3)
+        self.l4.draw_from_to(ax, x, p4)
+        self.l5.draw_from_to(ax, p1, p2)
+        self.l6.draw_from_to(ax, p2, p3)
+        self.l7.draw_from_to(ax, p3, p4)
+        self.l8.draw_from_to(ax, p4, p1)
+        self.origin.draw_at(ax, x)

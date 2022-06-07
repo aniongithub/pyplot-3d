@@ -12,12 +12,11 @@ class Sphere:
     Draws a sphere at a given position.
     '''
 
-    def __init__(self, ax, r, c='b', x0=np.array([0, 0, 0]).T, resolution=20):
+    def __init__(self, r, c='b', x0=np.array([0, 0, 0]).T, resolution=20):
         '''
         Initialize the sphere.
 
         Params:
-            ax: (matplotlib axis) the axis where the sphere should be drawn
             r: (float) radius of the sphere
             c: (string) color of the sphere, default 'b'
             x0: (3x1 numpy.ndarray) initial position of the sphere, default
@@ -28,20 +27,19 @@ class Sphere:
             None
         '''
 
-        self.ax = ax
         self.r = r
         self.color = c
         self.x0 = x0
         self.reso = resolution
     
 
-    def draw(self):
+    def draw(self, ax):
         '''
         Draw the sphere with the initially defined position when the class was
         instantiated.
 
         Args:
-            None
+            ax: (matplotlib axis) the axis where the sphere should be drawn
         
         Returns:
             None
@@ -54,14 +52,15 @@ class Sphere:
         y = self.r * np.sin(u) * np.sin(v) + self.x0[1]
         z = self.r * np.cos(v) + self.x0[2]
 
-        self.ax.plot_surface(x, y, z, color=self.color)
+        ax.plot_surface(x, y, z, color=self.color)
     
 
-    def draw_at(self, position=np.array([0.0, 0.0, 0.0]).T):
+    def draw_at(self, ax, position=np.array([0.0, 0.0, 0.0]).T):
         '''
         Draw the sphere at a given position.
 
         Args:
+            ax: (matplotlib axis) the axis where the sphere should be drawn
             position: (3x1 numpy.ndarray) position of the sphere, 
                 default = [0.0, 0.0, 0.0]
         
@@ -76,7 +75,7 @@ class Sphere:
         y = self.r * np.sin(u) * np.sin(v) + position[1]
         z = self.r * np.cos(v) + position[2]
 
-        self.ax.plot_surface(x, y, z, color=self.color)
+        ax.plot_surface(x, y, z, color=self.color)
 
 
 
@@ -85,13 +84,12 @@ class Arrow:
     Draws an arrow at a given position, with a given attitude.
     '''
 
-    def __init__(self, ax, direction, c='b', x0=np.array([0.0, 0.0, 0.0]).T, \
+    def __init__(self, direction, c='b', x0=np.array([0.0, 0.0, 0.0]).T, \
         length=1.0):
         '''
         Initialize the arrow.
 
         Params:
-            ax: (matplotlib axis) the axis where the arrow should be drawn
             direction: (3x1 numpy.ndarray) direction of the arrow
             c: (string) color of the arrow, default = 'b'
             x0: (3x1 numpy.ndarray) origin of the arrow, 
@@ -102,20 +100,19 @@ class Arrow:
             None
         '''
 
-        self.ax = ax
         self.u0 = direction
         self.color = c
         self.x0 = x0
         self.arrow_length = length
     
 
-    def draw(self):
+    def draw(self, ax):
         '''
         Draw the arrow with the initially defined parameter when the class was
         instantiated.
 
         Args:
-            None
+            ax: (matplotlib axis) the axis where the arrow should be drawn
         
         Returns:
             None
@@ -124,19 +121,20 @@ class Arrow:
         x = self.x0
         u = self.u0
 
-        self.ax.quiver(x[0], x[1], x[1], \
+        ax.quiver(x[0], x[1], x[1], \
             u[0], u[1], u[2], \
             color=self.color,
             length=self.arrow_length, \
             normalize=False)
     
 
-    def draw_from_to(self, x=np.array([0.0, 0.0, 0.0]).T, \
+    def draw_from_to(self, ax, x=np.array([0.0, 0.0, 0.0]).T, \
         u=np.array([1.0, 0.0, 0.0]).T):
         '''
         Draw the arrow at a given position, with a given direction
 
         Args:
+            ax: (matplotlib axis) the axis where the arrow should be drawn
             x: (3x1 numpy.ndarray) origin of the arrow, 
                 default = [0.0, 0.0, 0.0]
             u: (3x1 numpy.ndarray) direction of the arrow, 
@@ -146,7 +144,7 @@ class Arrow:
             None
         '''
         
-        self.ax.quiver(x[0], x[1], x[2], \
+        ax.quiver(x[0], x[1], x[2], \
             u[0], u[1], u[2], \
             color=self.color,
             length=self.arrow_length, \
@@ -159,12 +157,11 @@ class Line:
     Draws a line at a given position, with a given attitude.
     '''
 
-    def __init__(self, ax, c='b', x0=np.array([0.0, 0.0, 0.0]).T, \
+    def __init__(self, c='b', x0=np.array([0.0, 0.0, 0.0]).T, \
         x1=np.array([1.0, 0.0, 0.0]).T):
         '''
         Initialize the line.
         Params:
-            ax: (matplotlib axis) the axis where the line should be drawn
             c: (string) color of the arrow, default = 'b'
             x0: (3x1 numpy.ndarray) start of the line, 
                 default = [0.0, 0.0, 0.0]
@@ -175,34 +172,34 @@ class Line:
             None
         '''
 
-        self.ax = ax
         self.color = c
         self.x0 = x0
         self.x1 = x1
     
 
-    def draw(self):
+    def draw(self, ax):
         '''
         Draw the line with the initially defined parameter when the class was
         instantiated.
         Args:
-            None
+            ax: (matplotlib axis) the axis where the line should be drawn
         
         Returns:
             None
         '''
         
-        self.ax.plot([self.x0[0], self.x1[0]], \
+        ax.plot([self.x0[0], self.x1[0]], \
             [self.x0[1], self.x1[1]], \
             [self.x0[2], self.x1[2]], \
             color=self.color)
     
 
-    def draw_from_to(self, x0=np.array([0.0, 0.0, 0.0]).T, \
+    def draw_from_to(self, ax, x0=np.array([0.0, 0.0, 0.0]).T, \
         x1=np.array([1.0, 0.0, 0.0]).T):
         '''
         Draw the line between two points.
         Args:
+            ax: (matplotlib axis) the axis where the line should be drawn
             x0: (3x1 numpy.ndarray) start of the line, 
                 default = [0.0, 0.0, 0.0]
             x1: (3x1 numpy.ndarray) end of the line, 
@@ -212,7 +209,7 @@ class Line:
             None
         '''
         
-        self.ax.plot([x0[0], x1[0]], \
+        ax.plot([x0[0], x1[0]], \
             [x0[1], x1[1]], \
             [x0[2], x1[2]], \
             color=self.color)
@@ -223,12 +220,11 @@ class Plane:
     Draws a plane at a given position.
     '''
 
-    def __init__(self, ax, h, w, c='b', x=np.array([0, 0, 0]).T, \
+    def __init__(self, h, w, c='b', x=np.array([0, 0, 0]).T, \
         R=np.eye(3), resolution=1):
         '''
         Initialize the sphere.
         Params:
-            ax: (matplotlib axis) the axis where the plane should be drawn
             h = (float): height of the plane (x axis)
             w = (float): width of the plane (y axis)
             c: (string) color of the plane, default 'b'
@@ -242,7 +238,6 @@ class Plane:
             None
         '''
 
-        self.ax = ax
         self.h = h
         self.w = w
         self.color = c
@@ -254,12 +249,12 @@ class Plane:
         self.mesh_shape = (1, 1)
     
 
-    def draw(self):
+    def draw(self, ax):
         '''
         Draw the plane with the initially defined position when the class was
         instantiated.
         Args:
-            None
+            ax: (matplotlib axis) the axis where the plane should be drawn
         
         Returns:
             None
@@ -283,18 +278,19 @@ class Plane:
         # expensive. Replace this with np.einsum.
         uvw = self.R @ self.uvw
 
-        self.ax.plot_surface(
+        ax.plot_surface(
             uvw[0, :].reshape(self.mesh_shape) + float(self.x[0]),
             uvw[1, :].reshape(self.mesh_shape) + float(self.x[1]),
             uvw[2, :].reshape(self.mesh_shape) + float(self.x[2]), 
             color=self.color)
     
 
-    def draw_at(self, x=np.array([0.0, 0.0, 0.0]).T, R=np.eye(3)):
+    def draw_at(self, ax, x=np.array([0.0, 0.0, 0.0]).T, R=np.eye(3)):
         '''
         Draw the plane at a given position and attitude.
 
         Args:
+            ax: (matplotlib axis) the axis where the plane should be drawn
             x: (3x1 numpy.ndarray) position of plane,
                 default = [0.0, 0.0, 0.0]
             R: (3x1 numpy.ndarray) attitude of the plane, 
@@ -322,7 +318,7 @@ class Plane:
         # expensive. Replace this with np.einsum.
         uvw = R @ self.uvw
 
-        self.ax.plot_surface(
+        ax.plot_surface(
             uvw[0, :].reshape(self.mesh_shape) + float(x[0]),
             uvw[1, :].reshape(self.mesh_shape) + float(x[1]),
             uvw[2, :].reshape(self.mesh_shape) + float(x[2]), 
@@ -335,12 +331,11 @@ class Cube:
     Draws a cube at a given position.
     '''
 
-    def __init__(self, ax, dimensions, c='b', x=np.array([0, 0, 0]).T, \
+    def __init__(self, dimensions, c='b', x=np.array([0, 0, 0]).T, \
         R=np.eye(3), resolution=10):
         '''
         Initialize the cube.
         Params:
-            ax: (matplotlib axis) the axis where the cube should be drawn
             dimensions = (3x1 numpy.ndarray): dimensions along each axis
             c: (string) color of the cube, default 'b'
             x: (3x1 numpy.ndarray) initial position of the cube, default
@@ -353,7 +348,6 @@ class Cube:
             None
         '''
 
-        self.ax = ax
         self.d1 = dimensions[0]
         self.d2 = dimensions[1]
         self.d3 = dimensions[2]
@@ -395,29 +389,30 @@ class Cube:
             self.pt6, self.R6)
     
 
-    def draw(self):
+    def draw(self, ax):
         '''
         Draw the cube with the initially defined position when the class was
         instantiated.
         Args:
-            None
+            ax: (matplotlib axis) the axis where the cube should be drawn
         
         Returns:
             None
         '''
 
-        self.p1.draw()
-        self.p2.draw()
-        self.p3.draw()
-        self.p4.draw()
-        self.p5.draw()
-        self.p6.draw()
+        self.p1.draw(ax)
+        self.p2.draw(ax)
+        self.p3.draw(ax)
+        self.p4.draw(ax)
+        self.p5.draw(ax)
+        self.p6.draw(ax)
 
     
-    def draw_at(self, x=np.array([0.0, 0.0, 0.0]).T, R=np.eye(3)):
+    def draw_at(self, ax, x=np.array([0.0, 0.0, 0.0]).T, R=np.eye(3)):
         '''
         Draw the camera at a given point and attitude.
         Args:
+            ax: (matplotlib axis) the axis where the cube should be drawn
             x: (3x1 numpy.ndarray) position of camera,
                 default = [0.0, 0.0, 0.0]
             R: (3x1 numpy.ndarray) attitude of the camera, 
@@ -435,9 +430,9 @@ class Cube:
         # self.p5.draw_at(x + R@self.R5@self.pt5, R@self.R5)
         # self.p6.draw_at(x + R@self.R6@self.pt6, R@self.R6)
 
-        self.p1.draw_at(x + self.pt1, R@self.R1)
-        self.p2.draw_at(x + self.pt2, R@self.R2)
-        self.p3.draw_at(x + self.pt3, R@self.R3)
-        self.p4.draw_at(x + self.pt4, R@self.R4)
-        self.p5.draw_at(x + self.pt5, R@self.R5)
-        self.p6.draw_at(x + self.pt6, R@self.R6)
+        self.p1.draw_at(ax, x + self.pt1, R@self.R1)
+        self.p2.draw_at(ax, x + self.pt2, R@self.R2)
+        self.p3.draw_at(ax, x + self.pt3, R@self.R3)
+        self.p4.draw_at(ax, x + self.pt4, R@self.R4)
+        self.p5.draw_at(ax, x + self.pt5, R@self.R5)
+        self.p6.draw_at(ax, x + self.pt6, R@self.R6)

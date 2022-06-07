@@ -3,24 +3,22 @@ from .basic import Sphere, Line, Arrow
 import numpy as np
 
 
-class Uav:
+class   Uav:
     '''
     Draws a quadrotor at a given position, with a given attitude.
     '''
 
-    def __init__(self, ax, arm_length):
+    def __init__(self, arm_length):
         '''
         Initialize the quadrotr plotting parameters.
 
         Params:
-            ax: (matplotlib axis) the axis where the sphere should be drawn
             arm_length: (float) length of the quadrotor arm
 
         Returns:
             None
         '''
 
-        self.ax = ax
         self.arm_length = arm_length
 
         self.b1 = np.array([1.0, 0.0, 0.0]).T
@@ -28,29 +26,30 @@ class Uav:
         self.b3 = np.array([0.0, 0.0, 1.0]).T
 
         # Center of the quadrotor
-        self.body = Sphere(self.ax, 0.08, 'y')
+        self.body = Sphere(0.08, 'y')
 
         # Each motor
-        self.motor1 = Sphere(self.ax, 0.05, 'r')
-        self.motor2 = Sphere(self.ax, 0.05, 'g')
-        self.motor3 = Sphere(self.ax, 0.05, 'b')
-        self.motor4 = Sphere(self.ax, 0.05, 'b')
+        self.motor1 = Sphere(0.05, 'r')
+        self.motor2 = Sphere(0.05, 'g')
+        self.motor3 = Sphere(0.05, 'b')
+        self.motor4 = Sphere(0.05, 'b')
 
         # Arrows for the each body axis
-        self.arrow_b1 = Arrow(ax, self.b1, 'r')
-        self.arrow_b2 = Arrow(ax, self.b2, 'g')
-        self.arrow_b3 = Arrow(ax, self.b3, 'b')
+        self.arrow_b1 = Arrow(self.b1, 'r')
+        self.arrow_b2 = Arrow(self.b2, 'g')
+        self.arrow_b3 = Arrow(self.b3, 'b')
 
         # Quadrotor arms
-        self.arm_b1 = Line(ax)
-        self.arm_b2 = Line(ax)
+        self.arm_b1 = Line()
+        self.arm_b2 = Line()
     
 
-    def draw_at(self, x=np.array([0.0, 0.0, 0.0]).T, R=np.eye(3)):
+    def draw_at(self, ax, x=np.array([0.0, 0.0, 0.0]).T, R=np.eye(3), clear: bool = True):
         '''
         Draw the quadrotor at a given position, with a given direction
 
         Args:
+            ax: (matplotlib axis) the axis where the sphere should be drawn
             x: (3x1 numpy.ndarray) position of the center of the quadrotor, 
                 default = [0.0, 0.0, 0.0]
             R: (3x3 numpy.ndarray) attitude of the quadrotor in SO(3)
@@ -61,22 +60,23 @@ class Uav:
         '''
 
         # First, clear the axis of all the previous plots
-        self.ax.clear()
+        if clear:
+            ax.clear()
 
         # Center of the quadrotor
-        self.body.draw_at(x)
+        self.body.draw_at(ax, x)
 
         # Each motor
-        self.motor1.draw_at(x + R.dot(self.b1) * self.arm_length)
-        self.motor2.draw_at(x + R.dot(self.b2) * self.arm_length)
-        self.motor3.draw_at(x + R.dot(-self.b1) * self.arm_length)
-        self.motor4.draw_at(x + R.dot(-self.b2) * self.arm_length)
+        self.motor1.draw_at(ax, x + R.dot(self.b1) * self.arm_length)
+        self.motor2.draw_at(ax, x + R.dot(self.b2) * self.arm_length)
+        self.motor3.draw_at(ax, x + R.dot(-self.b1) * self.arm_length)
+        self.motor4.draw_at(ax, x + R.dot(-self.b2) * self.arm_length)
 
         # Arrows for the each body axis
-        self.arrow_b1.draw_from_to(x, R.dot(self.b1) * self.arm_length * 1.8)
-        self.arrow_b2.draw_from_to(x, R.dot(self.b2) * self.arm_length * 1.8)
-        self.arrow_b3.draw_from_to(x, R.dot(self.b3) * self.arm_length * 1.8)
+        self.arrow_b1.draw_from_to(ax, x, R.dot(self.b1) * self.arm_length * 1.8)
+        self.arrow_b2.draw_from_to(ax, x, R.dot(self.b2) * self.arm_length * 1.8)
+        self.arrow_b3.draw_from_to(ax, x, R.dot(self.b3) * self.arm_length * 1.8)
 
         # Quadrotor arms
-        self.arm_b1.draw_from_to(x, x + R.dot(-self.b1) * self.arm_length)
-        self.arm_b2.draw_from_to(x, x + R.dot(-self.b2) * self.arm_length)
+        self.arm_b1.draw_from_to(ax, x, x + R.dot(-self.b1) * self.arm_length)
+        self.arm_b2.draw_from_to(ax, x, x + R.dot(-self.b2) * self.arm_length)
