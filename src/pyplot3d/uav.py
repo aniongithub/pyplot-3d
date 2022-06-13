@@ -74,12 +74,6 @@ class Uav:
         self.motor3.draw_at(ax, x + R.dot(-self.b1) * self.arm_length)
         self.motor4.draw_at(ax, x + R.dot(-self.b2) * self.arm_length)
 
-        # Arrows for the each body axis
-        if self.draw_arrows:
-            self.arrow_b1.draw_from_to(ax, x, R.dot(self.b1) * self.arm_length * 1.8)
-            self.arrow_b2.draw_from_to(ax, x, R.dot(self.b2) * self.arm_length * 1.8)
-            self.arrow_b3.draw_from_to(ax, x, R.dot(self.b3) * self.arm_length * 1.8)
-
         # Quadrotor arms
         self.arm_b1.draw_from_to(ax, x, x + R.dot(self.b1) * self.arm_length)
         self.arm_b2.draw_from_to(ax, x, x + R.dot(self.b2) * self.arm_length)
