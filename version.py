@@ -33,7 +33,7 @@ def get_git_version(abbrev=7):
     # If that doesn't work, call it "dev"
 
     if version is None:
-        version = "dev"
+        version = "0.1.0"
     else:
         version = version.decode('utf-8')
 
